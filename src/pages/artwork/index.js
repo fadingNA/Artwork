@@ -4,6 +4,7 @@ import React, {useState, useEffect} from "react";
 import Error from "next/error";
 import {Card, Col, Pagination, Row, Spinner} from "react-bootstrap";
 import ArtworkCard from "@/components/artwork/ArtWorkCard";
+import validObjectIDList from '@/public/validObjectIDList.json'
 
 export default function Homes() {
     const [artWorkList, setArtWorkList] = useState([]);
@@ -15,9 +16,10 @@ export default function Homes() {
     useEffect(() => {
         const PER_PAGE = 10;
         const results = [];
+        let filteredResults = validObjectIDList.objectIDs.filter(x => data && data.objectIDs && data.objectIDs?.includes(x));
         if (data?.objectIDs) {
-            for (let i = 0; i < data.objectIDs.length; i += PER_PAGE) {
-                const chunk = data.objectIDs.slice(i, i + PER_PAGE);
+            for (let i = 0; i < filteredResults.length; i += PER_PAGE) {
+                const chunk = filteredResults.slice(i, i + PER_PAGE);
                 results.push(chunk);
             }
             setArtWorkList(results);

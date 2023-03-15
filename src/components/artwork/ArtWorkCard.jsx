@@ -21,7 +21,7 @@ const ArtworkCard = ({objectID}) => {
 
     return (<>
             <Card>
-                <Card.Img variant="top" src={imageUrl}/>
+                <Card.Img variant="top" src={imageUrl} style={{width: '300px', height: '300px'}}/>
                 <Card.Body>
                     <Card.Title>{title || 'N/A'}</Card.Title>
                     <Card.Text>

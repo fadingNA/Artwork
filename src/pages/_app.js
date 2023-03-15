@@ -2,7 +2,7 @@ import {SWRConfig} from "swr";
 import Layout from "@/components/layout/Layout";
 import "../styles/globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css'
-
+import '../../public/data/validObjectIDList.json'
 function MyApp({Component, pageProps}) {
     return (
         <SWRConfig
