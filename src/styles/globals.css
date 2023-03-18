@@ -1,0 +1,10 @@
+.Nav.Link:hover{
+    background-color: darkcyan;
+}
+.dropdown-hover:hover .nav-link {
+    color: white;
+}
+
+.navLink:hover {
+    background-color: darkgreen;
+}

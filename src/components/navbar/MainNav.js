@@ -9,6 +9,8 @@ import {useForm} from "react-hook-form";
 import {useRouter} from "next/router";
 import {useAtom} from "jotai";
 import {searchHistoryAtom} from "../../../store";
+import {NavDropdown} from "react-bootstrap";
+import styles from '@/styles/History.module.css'
 
 
 export default function MainNav() {
@@ -17,14 +19,16 @@ export default function MainNav() {
     const {register, handleSubmit} = useForm();
 
     function submitForm(data) {
-        setSearchHistory(current => [...current, data.search])
-        router.push(`/artwork?title=true&q=${data.search}`);
+        const searchValue = data.search;
+        const queryString = `title=true&q=${searchValue}`
+        setSearchHistory(current => [...current, queryString]);
+        router.push(`/artwork?${queryString}`)
     }
 
     return (
-        <Navbar bg="dark" expand="lg" className="fixed-top">
+        <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top" collapseOnSelect>
             <Container fluid>
-                <Navbar.Brand style={{color: "whitesmoke"}}>Nonthachai Plodthong</Navbar.Brand>
+                <Navbar.Brand href="/">Nonthachai Plodthong</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll"/>
                 <Navbar.Collapse id="navbarScroll">
                     <Nav
@@ -34,17 +38,24 @@ export default function MainNav() {
                         active={router.pathname === "/search"}
                     >
                         <Link href="/" legacyBehavior passHref>
-                            <Nav.Link style={{color: "whitesmoke"}}>Home</Nav.Link>
+                            <Nav.Link>Home</Nav.Link>
                         </Link>
                         <Link href="/search" legacyBehavior passHref>
-                            <Nav.Link style={{color: "whitesmoke"}} active={router.pathname === "/search"}>Advanced Search</Nav.Link>
+                            <Nav.Link active={router.pathname === "/search"}>Advanced Search</Nav.Link>
                         </Link>
-                        <Link href="/favoruites" legacyBehavior passHref>
-                            <Nav.Link style={{color: "whitesmoke"}}>Favourite</Nav.Link>
-                        </Link>
-                        <Link href="/history" legacyBehavior passHref>
-                            <Nav.Link style={{color: "whitesmoke"}} active={router.pathname === "/history"}>Search History</Nav.Link>
-                        </Link>
+                        <NavDropdown title={"User Name"}
+                                     style={{color: "#333", transition: "all 0.3s ease-in-out"}}
+                                     className="dropdown-hover">
+                            <Link href="/favoruites" legacyBehavior passHref>
+                                <Nav.Link style={{color: "#333"}} className={styles.navLink}>Favourite</Nav.Link>
+                            </Link>
+                            <Link href="/history" legacyBehavior passHref>
+                                <Nav.Link style={{color: "#333"}} className={styles.navLink}
+                                          active={router.pathname === "/history"}
+                                >Search
+                                    History</Nav.Link>
+                            </Link>
+                        </NavDropdown>
                     </Nav>
                     <Form className="d-flex" onSubmit={handleSubmit(submitForm)}>
                         <Form.Control

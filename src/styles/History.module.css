@@ -2,3 +2,19 @@
     background-color: #fff;
     cursor: pointer;
 }
+.Nav.Link:hover{
+    background-color: darkcyan;
+}
+.dropdown-hover:hover .nav-link {
+    color: red;
+}
+.navLink:hover {
+    background-color: #539165;
+}
+
+@media (max-width: 991px) {
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-right: .5rem;
+        padding-left: .5rem;
+    }
+}
