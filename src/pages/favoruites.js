@@ -6,7 +6,7 @@ import ArtworkCard from "@/components/artwork/ArtWorkCard";
 export default function Favourite() {
     const [favouriteList] = useAtom(favoruitesAtom)
     if (favouriteList.length === 0) {
-        return <p>"Nothing Here Try adding some new artwork to the list."</p>
+        return <p>'Nothing Here Try adding some new artwork to the list.'</p>
     }
     return (<div>
         {favouriteList.map((objectID) => (
