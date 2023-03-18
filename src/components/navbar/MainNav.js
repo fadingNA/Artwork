@@ -43,6 +43,19 @@ export default function MainNav() {
                         <Link href="/search" legacyBehavior passHref>
                             <Nav.Link active={router.pathname === "/search"}>Advanced Search</Nav.Link>
                         </Link>
+
+                    </Nav>
+                    <Form className="d-flex" onSubmit={handleSubmit(submitForm)}>
+                        <Form.Control
+                            {...register("search")}
+                            type="search"
+                            placeholder="Search your Artwork"
+                            className="me-2"
+                            aria-label="Search"
+                        />
+                        <Button variant="outline-success" type="submit">Search</Button>
+                    </Form>
+                    <Nav>
                         <NavDropdown title={"User Name"}
                                      style={{color: "#333", transition: "all 0.3s ease-in-out"}}
                                      className="dropdown-hover">
@@ -57,16 +70,6 @@ export default function MainNav() {
                             </Link>
                         </NavDropdown>
                     </Nav>
-                    <Form className="d-flex" onSubmit={handleSubmit(submitForm)}>
-                        <Form.Control
-                            {...register("search")}
-                            type="search"
-                            placeholder="Search your Artwork"
-                            className="me-2"
-                            aria-label="Search"
-                        />
-                        <Button variant="outline-success" type="submit">Search</Button>
-                    </Form>
                 </Navbar.Collapse>
             </Container>
             <br/>

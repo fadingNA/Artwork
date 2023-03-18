@@ -67,6 +67,7 @@
                         <br/>
                         {dimensions || 'N/A'}
                         <br/>
+                        <br/>
                         <Button variant={"primary"} onClick={favouritesClicked}>
                             {showAdded ? "+ Favourite (added)" : "Add to your favourite" }
                         </Button>
