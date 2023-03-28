@@ -1,0 +1,33 @@
+SDLC
+Software System Devlopment Life Cycle :
+
+1. Requirement Analysis -> Design -> Implementation -> Testing -> Deploy -> Maintenance
+
+1.1 Planning : The first stage of the SDLC is all about determining what do client want, what ultimate solution gonna be,
+			  Project planning is an important component of the software delivery life cyccle
+1.2 Gathering Requirement : Defining requirement is part of the planning process to figure out what the application is supposed to perform and what it needs.
+1.3 Design : The following phase entails dsitilling all of the software project's requriement, analysis and design information
+1.4 Development: Written Code
+1.5 : Testing : make sure application is working
+1.6 : Made available for customer to interact and get their feedback to the next step
+1.7 : Maintenance The developed poduct is looked after throughout this period. and check user feedback and improve every components that might have.
+
+
+
+!! Agile Model : Approaches divide jobs into smaller iterations or sections and avoid long-terms planning entirely
+The scope and reuqirement of the project are defiend at the start oft he development phase. The number of iterations, duration and scope
+of each iteration are all clearly determined ahead of time. 
+			In the agile process model, each
+
+
+			Phases of Agile Model : Requirement -> Desing -> Develop -> Test -> Deploy -> Review / feedback
+
+
+			Advance Agile Model:
+			Communication with cilent one-on-one
+			Continue Delivery
+			Design that is both efficient and metts the need of the company
+			Change can be made at any moment.
+			It cuts down on overall development time
+			Customer satisfaction is defined as the developement and devliery of valuable
+			Product Develope quickly in weekly rather than monthly.

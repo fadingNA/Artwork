@@ -1,15 +1,33 @@
-import { Card, Form, Button} from "react-bootstrap";
+import { Card, Form, Button, Alert} from "react-bootstrap";
+import { authenticateUser} from "../../lib/Auth";
 import React, {useState} from "react";
+import {searchHistoryAtom} from "../../store";
+import {favoruitesAtom} from "../../store";
+import {useRouter} from "next/router";
+import {getFav, getHistory} from "../../lib/userData";
+import {useAtom} from "jotai";
 export default function Login(props){
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
-
-    function handleSubmit(e){
-        e.preventDefault();
-        console.log('Todo: Submit Form')
-
+    const [warning, setWarning] = useState("");
+    const router = useRouter();
+    const [fav, setFavouritesList] = useAtom(favoruitesAtom);
+    const [his,setHistory] = useAtom(searchHistoryAtom);
+    async function handleSubmit(e){
+        e.preventDefault()
+        try{
+            await authenticateUser(user,password);
+            await router.push('/favourites');
+        }catch (err){
+            setWarning(err.message);
+        }
     }
-    return (<React.Fragment>
+    async function updateAtom(){
+        setFavouritesList(await getFav());
+        setHistory(await getHistory());
+    }
+    return (
+        <React.Fragment>
         <Card bg={"light"}>
             <Card.Body>
                 <h2>
@@ -19,7 +37,7 @@ export default function Login(props){
             </Card.Body>
         </Card>
         <br/>
-        <Form>
+        <Form onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Label>
                     User:
@@ -27,7 +45,8 @@ export default function Login(props){
                 <Form.Control
                 type={"text"}
                 id={"userName"}
-                name={"userName"}>
+                name={"userName"}
+                onChange={e => setUser(e.target.value)}>
                 </Form.Control>
             </Form.Group>
             <br/>
@@ -38,7 +57,8 @@ export default function Login(props){
                 <Form.Control
                 type={"password"}
                 id={"password"}
-                name={"password"}>
+                name={"password"}
+                onChange={e => setPassword(e.target.value)}>
                 </Form.Control>
             </Form.Group>
             <br/>
@@ -48,6 +68,7 @@ export default function Login(props){
             type={"submit"}>
                 Login
             </Button>
+            { warning && ( <><br /><Alert variant="danger">{warning}</Alert></> )}
         </Form>
     </React.Fragment>)
 }
