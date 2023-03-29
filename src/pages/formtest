@@ -1,0 +1,51 @@
+
+useForm
+useRouter
+
+const router = useRouter();
+const {resgister, handleSubmit, formState: {errors } } = useForm({
+	defaultValues:{
+	'' 
+	}
+})
+function submitForm(){
+	console.log('Form SUbmited')
+	router.push('/home')
+}
+return (<div> 
+		<h1>Form Testing</h1>
+		<div className="form_flex">
+			<form onSubmit={handlesubmit(submitForm)} className="app_form_res">
+				<label> Somethin to input </label>
+				<input value="..." name="..." placeholder="..." {...register("..." , 
+				required: true, maxLength: 15)}/>
+				{errors....?.type === "required" && 
+				<span stlye={{color: '#fff', bg-color: 'white'}}>
+				<br/>
+				This must be filled.
+				</span>}
+		<br/>
+		<br/>
+				<select multiple {...register("...")>
+					<option value="..">First</option>
+					<option value="...">Second</option>
+					<option value=".....">Get in!</option>
+				</select>
+				// disable by object is length morethan 0 .
+				<button type="submit" disabled={Object.keys(errors).length > 0 }>
+				Submit</button>
+			</form>
+		</div>
+</div>)
+
+// CSS 
+
+.form_flex{
+	display: flex;
+	justify-content: center:
+	width: 55%
+	@media screen (max-width: 960px){
+	 	width: 100%
+	 	transform: ease-in-out 1s
+	}
+}

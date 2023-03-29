@@ -43,6 +43,12 @@ export default function MainNav() {
                         <Link href="/search" legacyBehavior passHref>
                             <Nav.Link active={router.pathname === "/search"}>Advanced Search</Nav.Link>
                         </Link>
+                        <Link href="/register" legacyBehavior passHref>
+                            <Nav.Link active={router.pathname === "/register"}>Register</Nav.Link>
+                        </Link>
+                        <Link href="/login" legacyBehavior passHref>
+                            <Nav.Link active={router.pathname === "/register"}>Login</Nav.Link>
+                        </Link>
 
                     </Nav>
                     <Form className="d-flex" onSubmit={handleSubmit(submitForm)}>

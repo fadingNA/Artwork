@@ -1,6 +1,6 @@
-import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
+
 import jwt_decode from 'jwt-decode';
-import {get} from "react-hook-form";
+
 
 function setToken(token){
     localStorage.setItem('access_token', token);
@@ -51,18 +51,19 @@ export async function registerUser(user,password,password2){
 }
 
 export async function authenticateUser(user, pass){
+    console.log(user,pass)
     const res = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/login`, {
         method: 'POST',
         body: JSON.stringify({
             userName: user, password: pass
         }),
-        header: {
-            'content-type' : 'application/json',
+        headers: {
+            'Content-type' : 'application/json',
         },
     });
 
     const data = await res.json();
-    if (res.status === 200){
+    if (res.status === 200 && res.status === 204){
         setToken(data.token);
         return true;
     } else{

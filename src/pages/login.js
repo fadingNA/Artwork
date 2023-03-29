@@ -6,6 +6,7 @@ import {favoruitesAtom} from "../../store";
 import {useRouter} from "next/router";
 import {getFav, getHistory} from "../../lib/userData";
 import {useAtom} from "jotai";
+import Notify from "@/components/notity/notification";
 export default function Login(props){
     const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
@@ -19,7 +20,7 @@ export default function Login(props){
             await authenticateUser(user,password);
             await router.push('/favourites');
         }catch (err){
-            setWarning(err.message);
+            setWarning(<Notify message={err.message}/>);
         }
     }
     async function updateAtom(){
@@ -68,7 +69,8 @@ export default function Login(props){
             type={"submit"}>
                 Login
             </Button>
-            { warning && ( <><br /><Alert variant="danger">{warning}</Alert></> )}
+            <br/>
+            { warning && ( <><br /><Alert variant="primary" className={"me-auto"}>{warning}</Alert></> )}
         </Form>
     </React.Fragment>)
 }
