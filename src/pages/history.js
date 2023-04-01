@@ -5,23 +5,21 @@ import {useRouter} from "next/router";
 import {Card, ListGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import styles from '@/styles/History.module.css'
-
+import {favoruitesAtom} from "../../store";
+import {removeHistory} from "../../lib/userData";
 export default function History() {
     const [searchHistory, setSearchHistoryAtom] = useAtom(searchHistoryAtom)
+    const [favouritesList, setFavouritesList] = useAtom(favoruitesAtom)
     const router = useRouter();
-
-
+    if (!favouritesList) return null;
     function historyClicked(e, index) {
         router.push(`/artwork/?${searchHistory[index]}`)
     }
 
-    function removeHistoryClicked(e, index) {
+    async function removeHistoryClicked(e, index) {
         e.stopPropagation();
-        setSearchHistoryAtom((current) => {
-            let i = [...current];
-            i.splice(index, 1);
-            return i;
-        });
+        setSearchHistoryAtom(await removeHistory(searchHistory[index]))
+        //setSearchHistoryAtom(true)
     }
 
     function parsedHistory() {

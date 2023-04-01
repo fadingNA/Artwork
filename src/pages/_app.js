@@ -4,15 +4,16 @@ import "../styles/globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../../public/data/validObjectIDList.json'
 import {SSRProvider} from "react-bootstrap";
+import RouteGuard from "@/components/routeguard/RouteGuard";
 
 
 function MyApp({Component, pageProps}) {
     return (
+
         <SSRProvider
             // add SSR PROVIDER To ensure consistent ids are generated between the client and sv.
         >
             <SWRConfig
-
                 value={{
                     fetcher: async (url) => {
                         const res = await fetch(url);
@@ -29,9 +30,11 @@ function MyApp({Component, pageProps}) {
                         return res.json();
                     },
                 }}>
+                <RouteGuard>
                 <Layout>
                     <Component {...pageProps} />
                 </Layout>
+                </RouteGuard>
             </SWRConfig>
         </SSRProvider>
     );

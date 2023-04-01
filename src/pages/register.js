@@ -17,7 +17,7 @@ export default function Register(props) {
     } = useForm({});
 
     async function handleSubmits(e) {
-
+        e.preventDefault();
         try {
             await registerUser(user, password, password2);
             await router.push("/login");
@@ -56,9 +56,9 @@ export default function Register(props) {
                         {...register("password", {required: true, minLength: 8})}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                        {errors.password?.type === "required" && (
-                            <span className="text-danger">Password is too short bro.</span>
-                        )}
+                    {errors.password?.type === "required" && (
+                        <span className="text-danger">Password is too short bro.</span>
+                    )}
                 </Form.Group>
                 <br/>
                 <Form.Group>
@@ -83,7 +83,7 @@ export default function Register(props) {
                     className={"pull-right"}
                     type={"submit"}
                 >
-                    Login
+                    Sign in
                 </Button>
                 {warning && (
                     <>

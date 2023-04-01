@@ -3,10 +3,12 @@ import jwt_decode from 'jwt-decode';
 
 
 function setToken(token){
+    console.log(token)
     localStorage.setItem('access_token', token);
 }
 export function getToken() {
     try{
+        console.log(localStorage.getItem('access_token'))
         return localStorage.getItem('access_token');
     }catch(err){
         return null;
@@ -37,8 +39,8 @@ export async function registerUser(user,password,password2){
             password: password,
             password2: password2,
         }),
-        header: {
-            'content-type' : 'application/json'
+        headers: {
+            'Content-type' : 'application/json'
         }
     });
     const data = await res.json();
@@ -61,9 +63,9 @@ export async function authenticateUser(user, pass){
             'Content-type' : 'application/json',
         },
     });
-
+    console.log('login finish')
     const data = await res.json();
-    if (res.status === 200 && res.status === 204){
+    if (res.status === 200 || res.status === 204){
         setToken(data.token);
         return true;
     } else{
