@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -9,87 +9,88 @@ import {useForm} from "react-hook-form";
 import {useRouter} from "next/router";
 import {useAtom} from "jotai";
 import {searchHistoryAtom} from "../../../store";
-import {DropdownButton, NavDropdown} from "react-bootstrap";
+import {Col, DropdownButton, NavDropdown, Row} from "react-bootstrap";
 import styles from '@/styles/History.module.css'
 import {addToHistory} from "../../../lib/userData";
-import {getToken, removetoken} from "../../../lib/Auth";
+import {getToken, readToken, removetoken} from "../../../lib/Auth";
 import {Dropdown} from "react-bootstrap";
+import NavbarToggle from "react-bootstrap/NavbarToggle";
+import {IconButton} from "@material-ui/core";
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 
-export default function MainNav() {
+export default function MainNav({userName}) {
     const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom)
     const router = useRouter();
-    const token = getToken();
+    const token = readToken();
+    const [isM, setIsM]  = useState(false);
     const {register, handleSubmit} = useForm();
-
+    const [expanded, setExpanded] = useState(false);
+    const [search, setSearch] = useState(false);
+    console.log(userName)
     async function submitForm(data) {
         const searchValue = data.search;
         const queryString = `title=true&q=${searchValue}`
         setSearchHistory(
             await addToHistory(queryString)
-        );
-        router.push(`/artwork?${queryString}`)
+        )
+        if (search)  await setSearch(false);
+        await router.push(`/artwork?${queryString}`)
     }
 
+    useEffect(()=>{
+        setIsM(true);
+    },[])
+    function searchBar(){
+        if (search) {
+            setSearch(false)
+        }else{
+            setSearch(true)
+        }
+    }
     async function logout() {
         await removetoken();
+        setExpanded(false);
         await router.push('/login');
     }
 
     return (
-        <main>
-
-
-            <Navbar bg="dark" variant="dark" expand="lg" className="fixed-top" collapseOnSelect>
-                <Container fluid>
-                    <Navbar.Brand href="/">Nonthachai Plodthong</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="navbarScroll"/>
-                    <Navbar.Collapse id="navbarScroll">
-                        <Nav
-                            className="me-auto my-2 my-lg-0"
-                            style={{maxHeight: '100px'}}
-                            navbarScroll
-                            active={router.pathname === "/search"}
-                        >
-                            <Link href="/" legacyBehavior passHref>
-                                <Nav.Link>Home</Nav.Link>
-                            </Link>
-                            <Link href="/search" legacyBehavior passHref>
-                                <Nav.Link active={router.pathname === "/search"}>Advanced Search</Nav.Link>
-                            </Link>
-                        </Nav>
-                        <Form className="d-flex" onSubmit={handleSubmit(submitForm)}>
-                            <Form.Control
-                                {...register("search")}
-                                type="search"
-                                placeholder="Search your Artwork"
-                                className="me-2"
-                                aria-label="Search"
-                            />
-                            <Button variant="outline-success" type="submit"
-                                    className="btn btn-outline-primary m-1"> Search </Button>
-
-                        </Form>
-
-                        <DropdownButton align="end" id="dropdown-item-button" title={token?.userName}>
-                            {!token && <Link href={"/login"} legacyBehavior passHref>
-                                <Dropdown.Item as="button">Login</Dropdown.Item>
-                            </Link>}
-                            {!token && <Link href={"/register"} legacyBehavior passHref>
-                                <Dropdown.Item as="button">Register</Dropdown.Item>
-                            </Link>}
-                            {token && <Dropdown.Item as="button">Favourite</Dropdown.Item>}
-                            {token && <Dropdown.Item as="button">History</Dropdown.Item>}
-                            {token && <Dropdown.Item as="button" onClick={logout}>Logout</Dropdown.Item>}
-                        </DropdownButton>
-
-                    </Navbar.Collapse>
-
+        <React.Fragment>
+            <Navbar bg={"dark"} collapseOnSelect>
+                <Container>
+                    {isM && token && token.userName ? (
+                        <React.Fragment>
+                            <Navbar.Brand href={"/"} className="text-white">Nonthachai Plodthong</Navbar.Brand>
+                            <Navbar.Collapse className={"justify-content-end"}>
+                                <Navbar.Text className={"text-white-50"}>
+                                    Signed in as: {token.userName}
+                                </Navbar.Text>
+                            </Navbar.Collapse>
+                        </React.Fragment>
+                    ) : (
+                        <Navbar.Brand href={"/"} className="text-white">
+                             Nonthachai Plodthong
+                        </Navbar.Brand>
+                    )}
+                    <IconButton type="submit" aria-label="search" onClick={searchBar}>
+                        <SearchIcon style={{ fill: "whitesmoke" }} />
+                    </IconButton>
                 </Container>
-                <br/>
-                <br/>
             </Navbar>
-        </main>
-    );
+            {search && (
+                <Container>
+                    <Form className={"mb-3"} onSubmit={handleSubmit(submitForm)} >
+                    <IconButton type="submit" aria-label="search">
+                        <SearchIcon style={{ fill: "black" }} />
+                    </IconButton>
+                    <Container className={"mt-2"}>
+                            <Form.Control type={"search"} placeholder={"Search your artwork"} {...register ("search")}/>
+                    </Container>
+                    </Form>
+                </Container>
+            )}
+        </React.Fragment>
+    )
 }
 
 //{!token && }
