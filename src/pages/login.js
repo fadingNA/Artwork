@@ -28,7 +28,6 @@ export default function Login(props) {
             await router.push('/favoruites');
         } catch (err) {
             let message = setWarning(err.message);
-
         }
     }
 
