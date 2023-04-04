@@ -12,6 +12,7 @@ import {addToHistory} from "../../../lib/userData";
 import {readToken, removetoken} from "../../../lib/Auth";
 import {IconButton} from "@material-ui/core";
 import SearchIcon from '@mui/icons-material/Search';
+import NavDropdown from 'react-bootstrap/NavDropdown'
 
 export default function MainNav({userName}) {
     const [searchHistory, setSearchHistory] = useAtom(searchHistoryAtom)
@@ -48,6 +49,7 @@ export default function MainNav({userName}) {
     async function logout() {
         await removetoken();
         await setExpanded(false);
+
         await router.push('/login');
     }
 
@@ -58,17 +60,34 @@ export default function MainNav({userName}) {
                     {isM && token && token.userName ? (
                         <React.Fragment>
                             <Navbar.Brand href={"/"} className="text-white">Nonthachai Plodthong</Navbar.Brand>
+                            <Navbar.Toggle aria-controls={'navbar'}/>
                             <Navbar.Collapse className={"#"}>
-                                <Navbar.Text className={"text-white-50"}>
-                                    Signed in as: {token.userName}
-                                </Navbar.Text>
-                            </Navbar.Collapse>
+                                <NavDropdown
+                                    title={token.userName}
+                                    menuVariant={'white'}
+                                    className={'text-white mt-1'}>
+                                    <Link href={'/favoruites'} passHref legacyBehavior>
+                                        <NavDropdown.Item>
+                                            <Button active={router === '/favoruites'} variant={'outline-dark'}>
+                                                Favourites
+                                            </Button>
+                                        </NavDropdown.Item>
+                                    </Link>
+                                    <Link href={'/history'} passHref legacyBehavior>
+                                        <NavDropdown.Item>
+                                            <Button active={router === '/history'} variant={'outline-dark'}>
+                                               Search History
+                                            </Button>
+                                        </NavDropdown.Item>
+                                    </Link>
+                            </NavDropdown>
+                        </Navbar.Collapse>
                         </React.Fragment>
-                    ) : (
+                        ) : (
                         <Navbar.Brand href={"/"} className="text-white">
-                            Nonthachai Plodthong
+                        Nonthachai Plodthong
                         </Navbar.Brand>
-                    )}
+                        )}
                     <IconButton type="submit" aria-label="search" onClick={searchBar}>
                         <SearchIcon style={{fill: "whitesmoke"}}/>
                     </IconButton>
@@ -79,11 +98,16 @@ export default function MainNav({userName}) {
                         <Container className={'justify-content-between'}>
                             <Link href={'/login'} passHref legacyBehavior>
                                 <Button type={'button'} variant={'outline-danger'}
-                                        className={'btn btn-outline-white float-end m-2'}>Login</Button>
+                                        className={'btn btn-outline-white float-end m-2'}
+                                        active={router.pathname === "/login"}>
+                                    Login
+                                </Button>
                             </Link>
                             <Link href={'/register'} passHref legacyBehavior>
                                 <Button type={'button'} variant={'outline-light'}
-                                        className={'btn btn-outline-white float-end m-2'}>Register</Button>
+                                        className={'btn btn-outline-white float-end m-2'}
+                                        active={router.pathname === "/register"}>
+                                    Register</Button>
                             </Link>
                         </Container>
                     )}

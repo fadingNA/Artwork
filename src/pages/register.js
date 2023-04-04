@@ -17,7 +17,6 @@ export default function Register(props) {
     } = useForm({});
 
     async function handleSubmits(e) {
-        e.preventDefault();
         try {
             await registerUser(user, password, password2);
             await router.push("/login");
@@ -25,7 +24,6 @@ export default function Register(props) {
             setWarning(err.message);
         }
     }
-
     return (
         <React.Fragment>
             <Card bg={"light"}>
