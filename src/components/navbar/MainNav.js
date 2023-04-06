@@ -66,7 +66,7 @@ export default function MainNav({userName}) {
                                     title={token.userName}
                                     menuVariant={'white'}
                                     className={'text-white mt-1'}>
-                                    <Link href={'/favoruites'} passHref legacyBehavior>
+                                    <Link href={'/favourites'} passHref legacyBehavior>
                                         <NavDropdown.Item>
                                             <Button active={router === '/favoruites'} variant={'outline-dark'}>
                                                 Favourites

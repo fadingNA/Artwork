@@ -1,5 +1,5 @@
 import {Card, Form, Button, Alert} from "react-bootstrap";
-import {authenticateUser} from "../../lib/Auth";
+import {authenticateUser, readToken} from "../../lib/Auth";
 import React, {useState} from "react";
 import {searchHistoryAtom} from "../../store";
 import {favoruitesAtom} from "../../store";
@@ -7,6 +7,7 @@ import {useRouter} from "next/router";
 import {getFav, getHistory} from "../../lib/userData";
 import {useAtom} from "jotai";
 import Notify from "@/components/notity/notification";
+import {useForm} from "react-hook-form";
 
 export default function Login(props) {
     const [user, setUser] = useState("");
@@ -16,16 +17,23 @@ export default function Login(props) {
     const [fav, setFavouritesList] = useAtom(favoruitesAtom);
     const [his, setHistory] = useAtom(searchHistoryAtom);
     const [notify, setNotify] = useState(false);
+    const token = readToken();
+    const {register, handleSubmit, formState: {errors}} = useForm({
+        defaultValues:{
+            userName: "",
+            password: ""
+        }
+    })
 
-    async function handleSubmit(e) {
-        e.preventDefault()
+    async function handleSubmits(e) {
+        //e.preventDefault()
         try {
             await authenticateUser(user, password);
             console.log(user, password);
             setTimeout(() => {
                 setNotify(true);
             }, 10000);
-            await router.push('/favoruites');
+            await router.push('/favourites');
         } catch (err) {
             let message = setWarning(err.message);
         }
@@ -49,17 +57,22 @@ export default function Login(props) {
             {notify && <Notify message={'Logged IN!'}/>}
 
             <br/>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit(handleSubmits)}>
                 <Form.Group>
                     <Form.Label>
                         User:
                     </Form.Label>
                     <Form.Control
                         type={"text"}
-                        id={"userName"}
-                        name={"userName"}
-                        onChange={e => setUser(e.target.value)}>
-                    </Form.Control>
+                        placeholder={"Username"}
+                        {...register("user",{
+                            required: true,
+                            minLength: 4
+                        })}
+                        onChange={e => setUser(e.target.value)}/>
+                    {errors.user?.type === "required" && (
+                        <span className="text-danger">Username not match</span>
+                    )}
                 </Form.Group>
                 <br/>
                 <Form.Group>
@@ -68,8 +81,12 @@ export default function Login(props) {
                     </Form.Label>
                     <Form.Control
                         type={"password"}
-                        id={"password"}
-                        name={"password"}
+                        placeholder={"Password"}
+                        {...register("password",{
+                            required: true,
+                            minLength: 6,
+                           // validate: (value) => value === token.password,
+                        })}
                         onChange={e => setPassword(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
@@ -77,7 +94,8 @@ export default function Login(props) {
                 <Button
                     variant={"primary"}
                     className={"pull-right"}
-                    type={"submit"}>
+                    type={"submit"}
+                >
                     Login
                 </Button>
                 <br/>

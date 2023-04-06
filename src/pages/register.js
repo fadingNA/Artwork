@@ -38,10 +38,14 @@ export default function Register(props) {
                     <Form.Label>Username:</Form.Label>
                     <Form.Control
                         type={"text"}
-                        id={"userName"}
-                        name={"userName"}
+                        {...register("user", {
+                            required: true
+                        })}
                         onChange={(e) => setUser(e.target.value)}
-                    ></Form.Control>
+                    />
+                    {errors.user?.type=== "required" && (
+                        <span className="text-danger">Username is required.</span>
+                    )}
                 </Form.Group>
                 <br/>
                 <Form.Group>
@@ -55,7 +59,7 @@ export default function Register(props) {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     {errors.password?.type === "required" && (
-                        <span className="text-danger">Password is too short bro.</span>
+                        <span className="text-danger">Password is less than 8 character.</span>
                     )}
                 </Form.Group>
                 <br/>
@@ -72,7 +76,7 @@ export default function Register(props) {
                         onChange={(e) => setPassword2(e.target.value)}
                     />
                     {errors.password?.type === "required" &&
-                        <span className="text-danger">Password is too short bro.</span>
+                        <span className="text-danger">Password is less than 8 character.</span>
                     }
                 </Form.Group>
                 <br/>
@@ -80,6 +84,7 @@ export default function Register(props) {
                     variant={"primary"}
                     className={"pull-right"}
                     type={"submit"}
+                    disabled={Object.keys(errors).length > 0}
                 >
                     Sign in
                 </Button>
