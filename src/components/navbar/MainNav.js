@@ -57,22 +57,22 @@ export default function MainNav({userName}) {
 
     return (
         <React.Fragment>
-            <Navbar bg={"dark"} collapseOnSelect>
-                <Container className={'flex-row'}>
+            <Navbar bg={"dark"} variant={'dark'} expand={"lg"} collapseOnSelect>
+                <Container className={'me-auto'}>
                     {isM && token && token.userName ? (
                         <React.Fragment>
                             <Navbar.Brand href={"/"} className="text-white">Nonthachai Plodthong</Navbar.Brand>
-                            <Navbar.Toggle aria-controls={'navbar'}/>
-                            <Navbar.Collapse className={"#"}>
-                                <Link href={'/search'} passHref legacyBehavior>
-                                    <Nav.Link className={'text-white mt-1'}
-                                              active={router === '/search'}>Advance
-                                        Search {'\u00A0'} {'\u00A0'}</Nav.Link>
-                                </Link>
+                            <Navbar.Toggle aria-controls={'basic-navbar-nav'}/>
+                            <Link href={'/search'} passHref legacyBehavior>
+                                <Nav.Link className={'text-white mt-1'}
+                                          active={router === '/search'}>Advance
+                                    Search {'\u00A0'} {'\u00A0'}</Nav.Link>
+                            </Link>
+                            <Navbar.Collapse className={"basic-navbar-nav justify-content-end"}>
                                 <NavDropdown
                                     title={token.userName}
                                     menuVariant={'white'}
-                                    className={'text-white mt-1'}>
+                                    className={'text-white mt-1 justify-content-end'}>
                                     <Link href={'/favourites'} passHref legacyBehavior>
                                         <NavDropdown.Item>
                                             <Button active={router === '/favourites'} variant={'outline-dark'}>
@@ -88,21 +88,20 @@ export default function MainNav({userName}) {
                                         </NavDropdown.Item>
                                     </Link>
                                 </NavDropdown>
+                                <IconButton type="submit" aria-label="search" onClick={searchBar}>
+                                    <SearchIcon style={{fill: "whitesmoke"}}/>
+                                </IconButton>
+                                {isM && token && token.userName &&(
+                                    <Button onClick={logout}>
+                                        Logout </Button>)
+                                }
                             </Navbar.Collapse>
                         </React.Fragment>
                     ) : (
-                        <Navbar.Brand href={"/"} className="text-white">
-                            Nonthachai Plodthong
-                        </Navbar.Brand>
-                    )}
-                    <IconButton type="submit" aria-label="search" onClick={searchBar}>
-                        <SearchIcon style={{fill: "whitesmoke"}}/>
-                    </IconButton>
-                    {isM && token && token.userName ? (
-                        <Button onClick={logout}>
-                            Logout </Button>
-                    ) : (
-                        <Container className={'justify-content-between'}>
+                        <Container className={'me-auto'}>
+                            <Navbar.Brand href={"/"}>
+                                Nonthachai Plodthong
+                            </Navbar.Brand>
                             <Link href={'/login'} passHref legacyBehavior>
                                 <Button type={'button'} variant={'outline-danger'}
                                         className={'btn btn-outline-white float-end m-2'}
