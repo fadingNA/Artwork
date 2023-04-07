@@ -19,7 +19,7 @@ export default function Login(props) {
     const [notify, setNotify] = useState(false);
     const token = readToken();
     const {register, handleSubmit, formState: {errors}} = useForm({
-        defaultValues:{
+        defaultValues: {
             userName: "",
             password: ""
         }
@@ -65,14 +65,12 @@ export default function Login(props) {
                     <Form.Control
                         type={"text"}
                         placeholder={"Username"}
-                        {...register("user",{
+                        {...register("user", {
                             required: true,
                             minLength: 4
                         })}
                         onChange={e => setUser(e.target.value)}/>
-                    {errors.user?.type === "required" && (
-                        <span className="text-danger">Username not match</span>
-                    )}
+
                 </Form.Group>
                 <br/>
                 <Form.Group>
@@ -82,10 +80,10 @@ export default function Login(props) {
                     <Form.Control
                         type={"password"}
                         placeholder={"Password"}
-                        {...register("password",{
+                        {...register("password", {
                             required: true,
                             minLength: 6,
-                           // validate: (value) => value === token.password,
+                            // validate: (value) => value === token.password,
                         })}
                         onChange={e => setPassword(e.target.value)}>
                     </Form.Control>

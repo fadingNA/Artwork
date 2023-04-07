@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import Link from "next/link";
 import {useForm} from "react-hook-form";
 import {useRouter} from "next/router";
@@ -22,7 +23,8 @@ export default function MainNav({userName}) {
     const {register, handleSubmit} = useForm();
     const [expanded, setExpanded] = useState(false);
     const [search, setSearch] = useState(false);
-    console.log(userName)
+
+    //console.log(userName)
 
     async function submitForm(data) {
         const searchValue = data.search;
@@ -62,13 +64,18 @@ export default function MainNav({userName}) {
                             <Navbar.Brand href={"/"} className="text-white">Nonthachai Plodthong</Navbar.Brand>
                             <Navbar.Toggle aria-controls={'navbar'}/>
                             <Navbar.Collapse className={"#"}>
+                                <Link href={'/search'} passHref legacyBehavior>
+                                    <Nav.Link className={'text-white mt-1'}
+                                              active={router === '/search'}>Advance
+                                        Search {'\u00A0'} {'\u00A0'}</Nav.Link>
+                                </Link>
                                 <NavDropdown
                                     title={token.userName}
                                     menuVariant={'white'}
                                     className={'text-white mt-1'}>
                                     <Link href={'/favourites'} passHref legacyBehavior>
                                         <NavDropdown.Item>
-                                            <Button active={router === '/favoruites'} variant={'outline-dark'}>
+                                            <Button active={router === '/favourites'} variant={'outline-dark'}>
                                                 Favourites
                                             </Button>
                                         </NavDropdown.Item>
@@ -76,18 +83,18 @@ export default function MainNav({userName}) {
                                     <Link href={'/history'} passHref legacyBehavior>
                                         <NavDropdown.Item>
                                             <Button active={router === '/history'} variant={'outline-dark'}>
-                                               Search History
+                                                Search History
                                             </Button>
                                         </NavDropdown.Item>
                                     </Link>
-                            </NavDropdown>
-                        </Navbar.Collapse>
+                                </NavDropdown>
+                            </Navbar.Collapse>
                         </React.Fragment>
-                        ) : (
+                    ) : (
                         <Navbar.Brand href={"/"} className="text-white">
-                        Nonthachai Plodthong
+                            Nonthachai Plodthong
                         </Navbar.Brand>
-                        )}
+                    )}
                     <IconButton type="submit" aria-label="search" onClick={searchBar}>
                         <SearchIcon style={{fill: "whitesmoke"}}/>
                     </IconButton>
